@@ -1,30 +1,28 @@
-
-taxi_training_data 
-
-Select
+CREATE OR REPLACE TABLE
+  taxirides.taxi_training_data AS
+SELECT
+  (tolls_amount + fare_amount) AS fare_amount,
   pickup_datetime,
   pickup_longitude AS pickuplon,
   pickup_latitude AS pickuplat,
   dropoff_longitude AS dropofflon,
   dropoff_latitude AS dropofflat,
   passenger_count AS passengers,
-  ( tolls_amount + fare_amount ) AS fare_amount
 FROM
-  `taxirides.historical_taxi_rides_raw`
+  taxirides.historical_taxi_rides_raw
 WHERE
-  trip_distance > 0
+  RAND() < 0.001
+  AND trip_distance > 0
   AND fare_amount >= 2.5
-  AND pickup_longitude > -75
-  AND pickup_longitude < -73
-  AND dropoff_longitude > -75
-  AND dropoff_longitude < -73
-  AND pickup_latitude > 40
-  AND pickup_latitude < 42
-  AND dropoff_latitude > 40
-  AND dropoff_latitude < 42
+  AND pickup_longitude > -78
+  AND pickup_longitude < -70
+  AND dropoff_longitude > -78
+  AND dropoff_longitude < -70
+  AND pickup_latitude > 37
+  AND pickup_latitude < 45
+  AND dropoff_latitude > 37
+  AND dropoff_latitude < 45
   AND passenger_count > 0
-  AND RAND() < 0.001
-
 
 
 CREATE or REPLACE MODEL
